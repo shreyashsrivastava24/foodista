@@ -11,6 +11,8 @@ import Home from './pages/Home.jsx'
 import useGetCity from './hooks/useGetCity.jsx'
 import useGetMyshop from './hooks/useGetMyShop.jsx'
 import AddItem from './pages/AddItem';
+import useGetShopByCity from './hooks/useGetShopByCity.jsx'
+import useGetItemsByCity from './hooks/useGetItemsByCIty.jsx'
 
 export const serverUrl = "http://localhost:8000"
 
@@ -18,6 +20,8 @@ function App() {
   useGetCurrentUser()
   useGetCity()
   useGetMyshop()
+  useGetShopByCity()
+  useGetItemsByCity()
   const {userData}=useSelector(state=>state.user)
   return (
     //iske andar hum apne routes define karenge

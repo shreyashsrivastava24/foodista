@@ -47,6 +47,7 @@ export const getShopByCity=async (req,res) => {
         const {city}=req.params
 
         const shops=await Shop.find({
+            // case insensitive search for city name using regex
             city:{$regex:new RegExp(`^${city}$`, "i")}
         }).populate('items')
         if(!shops){
