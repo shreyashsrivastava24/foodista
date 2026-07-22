@@ -8,6 +8,9 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.routes.js';
 import cors from 'cors';
 import dns from 'dns';
+import userRouter from './routes/user.routes.js';
+import itemRouter from "./routes/item.routes.js"
+import shopRouter from "./routes/shop.routes.js"
 
 // change dns
 dns.setServers(['8.8.8.8', '8.8.4.4']);
@@ -28,6 +31,9 @@ app.use(express.json());
 // token easily cookies me store krne k liye cookie parser use krenge
 app.use(cookieParser());
 app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/shop",shopRouter)
+app.use("/api/item",itemRouter)
 
 app.listen(PORT, () => {
     connectDb();

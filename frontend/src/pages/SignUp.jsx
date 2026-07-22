@@ -9,6 +9,8 @@ import { serverUrl } from "../App";
 import { auth } from "../../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { ClipLoader } from "react-spinners"
+import { setUserData } from '../redux/userSlice';
+import {useDispatch} from "react-redux";
 
 function SignUp() {
   const primaryColor = "#ff4d2d";
@@ -25,6 +27,7 @@ function SignUp() {
   const [mobile, setMobile] = useState("")
   const [err, setErr] = useState("")
   const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
 
   const handleSignUp = async () => {
     setLoading(true)
@@ -32,7 +35,8 @@ function SignUp() {
       const result = await axios.post(`${serverUrl}/api/auth/signup`, {
         fullName, email, password, mobile, role
       }, { withCredentials: true })
-      console.log(result)
+      // console.log(result)
+      dispatch(setUserData(result.data))
       setErr("")
       setLoading(false)
     }
@@ -47,19 +51,20 @@ function SignUp() {
       return setErr("Mobile number must be of 10 digits")
     }
     const provider = new GoogleAuthProvider()
-    const result = await signInWithPopup(auth, provider)
     try {
+      const result = await signInWithPopup(auth, provider)
       const { data } = await axios.post(`${serverUrl}/api/auth/google-auth`, {
         fullName: result.user.displayName,
         email: result.user.email,
         role,
         mobile
       }, { withCredentials: true })
-      console.log(data)
+      // console.log(data)
+      dispatch(setUserData(data))
       setErr("")
     }
     catch (error) {
-      setErr(error?.response?.data?.message)
+      setErr(error?.response?.data?.message || error.message)
     }
   }
 
