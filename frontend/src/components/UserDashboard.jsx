@@ -36,25 +36,37 @@ function UserDashboard() {
   }
 
   useEffect(() => {
-    //shuruat me buttons mount nhi ho rhe the thats why aise likha starting me v
-    if (cateScrollRef.current) {
-      updateButton(cateScrollRef, setShowLeftCateButton, setShowRightCateButton)
-      updateButton(shopScrollRef, setShowLeftShopButton, setShowRightShopButton)
-      cateScrollRef.current.addEventListener('scroll', () => {
-        updateButton(cateScrollRef, setShowLeftCateButton, setShowRightCateButton)
-      })
-      shopScrollRef.current.addEventListener('scroll', () => {
-        updateButton(shopScrollRef, setShowLeftShopButton, setShowRightShopButton)
-      })
+  const cateElement = cateScrollRef.current;
+  const shopElement = shopScrollRef.current;
+
+  const handleCateScroll = () => {
+    updateButton(cateScrollRef, setShowLeftCateButton, setShowRightCateButton);
+  };
+
+  const handleShopScroll = () => {
+    updateButton(shopScrollRef, setShowLeftShopButton, setShowRightShopButton);
+  };
+
+  if (cateElement) {
+    updateButton(cateScrollRef, setShowLeftCateButton, setShowRightCateButton);
+    cateElement.addEventListener("scroll", handleCateScroll);
+  }
+
+  if (shopElement) {
+    updateButton(shopScrollRef, setShowLeftShopButton, setShowRightShopButton);
+    shopElement.addEventListener("scroll", handleShopScroll);
+  }
+
+  return () => {
+    if (cateElement) {
+      cateElement.removeEventListener("scroll", handleCateScroll);
     }
 
-    return () => cateScrollRef.current.removeEventListener('scroll', () => {
-      updateButton(cateScrollRef, setShowLeftCateButton, setShowRightCateButton)
-    })
-    shopScrollRef.current.removeEventListener('scroll', () => {
-      updateButton(shopScrollRef, setShowLeftShopButton, setShowRightShopButton)
-    })
-  }, [categories])
+    if (shopElement) {
+      shopElement.removeEventListener("scroll", handleShopScroll);
+    }
+  };
+}, []);
 
   return (
     <div className='w-screen min-h-screen bg-[#fff9f6] flex flex-col gap-5 items-center overflow-y-auto'>
