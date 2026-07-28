@@ -18,9 +18,9 @@ function FoodCard({ data }) {
         for (let i = 1; i <= 5; i++) {
             stars.push(
                 (i <= rating) ? (
-                    <FaStar className='text-yellow-500 text-lg' />
+                    <FaStar key={`star-${i}`} className='text-yellow-500 text-lg' />
                 ) : (
-                    <FaRegStar className='text-yellow-500 text-lg' />
+                    <FaRegStar key={`star-${i}`} className='text-yellow-500 text-lg' />
                 )
             )
 
@@ -79,6 +79,7 @@ function FoodCard({ data }) {
                     price: data.price,
                     image: data.image,
                     shop: data.shop,
+                    shopId: data.shop,
                     quantity,
                     foodType: data.foodType
                     })):null}}>
